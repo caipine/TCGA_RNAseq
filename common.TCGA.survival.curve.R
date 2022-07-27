@@ -15,7 +15,7 @@ for (i in unique(sample$Project.ID) )   {
 #i <- unique(sample$Project.ID)[3]
   print(paste0("'", i, "'__deseq2-2.RDA exists"))
   load( paste0("'", i, "'__deseq2-2.RDA") )
-d1 <- gene_sur3(c("DLAT", "ACLY", "ACACA", "FASN",  "MDH2", "PPAT", "GART", "PFAS", "PAICS", "ADSL", "ATIC"  ))
+d1 <- gene_sur3(c("ADSL", "ATIC"  ))
 d1$Group <- c(sample("Low", round(nrow(d1)/2) , replace = T),
               sample("High", nrow(d1) - round(nrow(d1)/2) , replace = T))
 
