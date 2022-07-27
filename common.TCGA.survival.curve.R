@@ -1,3 +1,8 @@
+
+library("survival")
+library("survminer")
+library(stringr)
+
 source("https://raw.githubusercontent.com/caipine/TCGA_RNAseq/main/gene_sur3.fucntion.R")
 pv <- c()
 pvn <- c()
