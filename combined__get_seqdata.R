@@ -19,28 +19,35 @@ return(seqdata)
 }
 
 
- loc <- dir("NONTCGA")
- files.loc <- c()
- for (j in loc) {
-   print(j)
-  files.loc <-c( files.loc, 
-                 paste0("NONTCGA/", j,"/",  dir(paste0("NONTCGA/",j)) )
-                 )
+loc <- dir("NONTCGA")
+loc <- loc[!grepl("Normal", loc)]
+files.loc <- c()
+for (j in loc) {
+  print(j)
+  files.loc <-c( files.loc, paste0("NONTCGA/", j,"/",  dir(paste0("NONTCGA/",j)) )   )
 }
   length(files.loc)
-files.loc[1]
-files.loc[9193]
+#files.loc[1]
+#files.loc[9193]
 files.data <- data.frame(str_split_fixed(files.loc, "/", 3))
 files.data$loc <- files.loc
  
  
  
 sample <- read.csv2(paste0( dir( pattern = "gdc_sample_sheet") ), sep = "\t")
-
+print(unique(sample$Project.ID))
 for ( i in unique(sample$Project.ID)) {
-files.loc.n <- files.data[files.data$X3 %in% sample[sample$Project.ID %in% i,  ]$File.Name,]$loc
 
+if (file.exists( paste0("'", i, "'__seqdata.rds"))) {
+print( paste0("'", i, "'__seqdata.rds  exists"))
+} else {
+print("Working on") 
+print(i)
+files.loc.n <- files.data[files.data$X3 %in% sample[sample$Project.ID %in% i,  ]$File.Name,]$loc
 seqdata <- getTCGAmatrix3(files.loc.n)
 print(dim(seqdata))
-saveRDS(seqdata, file= paste0("NON_TCGA", "/'", i, "'__seqdata.rds"))
+saveRDS(seqdata, file= paste0("'", i, "'__seqdata.rds"))
 }
+}
+
+
